@@ -1,5 +1,3 @@
-tool
-
 extends MeshInstance
 
 export(SpatialMaterial) var material = SpatialMaterial.new()
@@ -297,16 +295,13 @@ var triTable = [
 [0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
 
-var noise
+var noise = OpenSimplexNoise.new()
 
-export var lacunarity = 2.0 setget set_lacunarity
+export var lacunarity = 1.4 setget set_lacunarity
 export var octaves = 4 setget set_octaves
-export var period = 64 setget set_period
+export var period = 32 setget set_period
 export var persistence = 1.0 setget set_persistence
-export var s: int = 1 setget set_seed
-export var smoothness: int = 1 setget set_smoothness
-
-export var blend_parameter: float = 1.0 setget set_blend
+export var s: int = 6 setget set_seed
 export var height: float = 10 setget set_height
 export var width: float = 100 setget set_width
 
@@ -340,26 +335,13 @@ func set_seed(value):
 	s = value
 	generate(isolevel)
 	
-func set_blend(value):
-	blend_parameter = value
-	generate(isolevel)
-	
-func set_smoothness(value):
-	smoothness = value
-	generate(isolevel)
-	
-#returns the geometry for the mesh.
-#y = x/sqrt(1 + 0.15x^2)
-#use a logistic function to determine how much of the noise to mix in
-#given the height
 func getValue(x, y, z):
-	#hard floors	
 	if y <= 0:
 		return -1
 	elif y >= height:
 		return 1
 	else: 
-		return noise.get_noise_3d(x / smoothness, y / smoothness, z / smoothness)
+		return noise.get_noise_3d(x, y, z)
 		
 func vertexInterp(a, b, isolevel):
 	if abs(isolevel - a[3]) < 0.00001:
@@ -440,8 +422,6 @@ func addVerts(x, y, z, surfTool, isolevel, color):
 			surfTool.add_vertex(a)
 
 func generate(newIsolevel):
-	randomize()
-	noise = OpenSimplexNoise.new()
 	noise.set_period(period)
 	noise.set_lacunarity(lacunarity)
 	noise.set_persistence(persistence)

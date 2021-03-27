@@ -1,5 +1,3 @@
-tool
-
 extends Spatial
 
 onready var terrain = $Terrain/MeshGenerator
@@ -25,12 +23,12 @@ export var spawn_boids: bool = false
 export var num_boids: int = 100
 
 func _ready():
-	seed_slider.set_value(terrain.s)
-	period_slider.set_value(terrain.period)
-	lacunarity_slider.set_value(terrain.lacunarity)
-	persistence_slider.set_value(terrain.persistence)
-	octaves_slider.set_value(terrain.octaves)
-	blend_slider.set_value(terrain.blend_parameter)
+#	seed_slider.set_value(terrain.s)
+#	period_slider.set_value(terrain.period)
+#	lacunarity_slider.set_value(terrain.lacunarity)
+#	persistence_slider.set_value(terrain.persistence)
+#	octaves_slider.set_value(terrain.octaves)
+#	blend_slider.set_value(terrain.blend_parameter)
 	if spawn_boids:
 		randomize()		
 		for n in num_boids:

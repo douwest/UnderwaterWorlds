@@ -1,3 +1,5 @@
+tool
+
 extends StaticBody
 
 onready var mesh_generator = $MeshGenerator
