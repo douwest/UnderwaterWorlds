@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="PlayingAround"
-run/main_scene="res://terrain_maker.tscn"
+run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
 [autoload]
