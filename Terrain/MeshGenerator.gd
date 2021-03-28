@@ -1,3 +1,5 @@
+tool
+
 extends MeshInstance
 
 export(SpatialMaterial) var material = SpatialMaterial.new()
@@ -295,73 +297,23 @@ var triTable = [
 [0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
 
-var noise = OpenSimplexNoise.new()
-
-export var lacunarity = 1.4 setget set_lacunarity
-export var octaves = 4 setget set_octaves
-export var period = 32 setget set_period
-export var persistence = 1.0 setget set_persistence
-export var s: int = 6 setget set_seed
-export var height: float = 10 setget set_height
-export var width: float = 100 setget set_width
+onready var height: float = Density.height
+var width: float = 50
 
 signal generation_finished(mesh)
-
-func set_height(value):
-	height = value
-	generate(isolevel)
-	
-func set_width(value):
-	lacunarity = value
-	generate(isolevel)
-
-func set_lacunarity(value):
-	lacunarity = value
-	generate(isolevel)
-
-func set_octaves(value):
-	octaves = value
-	generate(isolevel)
-	
-func set_period(value):
-	period = value
-	generate(isolevel)
-	
-func set_persistence(value):
-	persistence = value
-	generate(isolevel)
-
-func set_seed(value):
-	s = value
-	generate(isolevel)
-	
-func getValue(x, y, z):
-	if y <= 0:
-		return -1
-	elif y >= height:
-		return 1
-	else: 
-		return noise.get_noise_3d(x, y, z)
 		
-func vertexInterp(a, b, isolevel):
-	if abs(isolevel - a[3]) < 0.00001:
+func vertexInterp(a, b, iso):
+	if abs(iso - a[3]) < 0.00001:
 		return Vector3(a[0], a[1], a[2])
-	if abs(isolevel - b[3]) < 0.00001:
+	if abs(iso - b[3]) < 0.00001:
 		return Vector3(b[0], b[1], b[2])
 	if abs(a[3]-b[3]) < 0.00001:
 		return Vector3(a[0], a[1], a[2])
-	var mu = (isolevel - a[3]) / (b[3] - a[3])
+	var mu = (iso - a[3]) / (b[3] - a[3])
 	return Vector3(
 		a[0] + mu * (b[0] - a[0]),
 		a[1] + mu * (b[1] - a[1]),
 		a[2] + mu * (b[2] - a[2])
-	)
-
-func vertexAvg(a, b):
-	return Vector3(
-		(a[0] + b[0]) / 2,
-		(a[1] + b[1]) / 2,
-		(a[2] + b[2]) / 2
 	)
 
 func addVerts(x, y, z, surfTool, isolevel, color):
@@ -378,7 +330,7 @@ func addVerts(x, y, z, surfTool, isolevel, color):
 	]
 	var check = 1
 	for i in range(8):
-		grid[i].append(getValue(grid[i][0], grid[i][1], grid[i][2]))
+		grid[i].append(Density.get_density(grid[i][0], grid[i][1], grid[i][2]))
 		if grid[i][3] < isolevel:
 			value |= check
 		check *= 2
@@ -422,12 +374,6 @@ func addVerts(x, y, z, surfTool, isolevel, color):
 			surfTool.add_vertex(a)
 
 func generate(newIsolevel):
-	noise.set_period(period)
-	noise.set_lacunarity(lacunarity)
-	noise.set_persistence(persistence)
-	noise.set_octaves(octaves)
-	noise.set_seed(s)
-	
 	isolevel = newIsolevel
 	
 	var surfTool = SurfaceTool.new()
@@ -436,7 +382,7 @@ func generate(newIsolevel):
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
 	for x in range(-width/2, width/2):
-		for y in range(0, height):
+		for y in range(-height/2, height/2):
 			for z in range(-width/2, width/2):
 				addVerts(x, y, z, surfTool, isolevel, get_color(y))
 	

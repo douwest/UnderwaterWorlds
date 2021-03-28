@@ -34,6 +34,7 @@ config/icon="res://icon.png"
 
 BoidProperties="*res://Boids/BoidProperties.gd"
 BoidUtils="*res://Boids/BoidUtils.gd"
+Density="*res://Terrain/Noise/Density.gd"
 
 [input]
 
