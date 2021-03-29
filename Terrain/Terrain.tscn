@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Terrain/MeshGenerator.gd" type="Script" id=1]
+[ext_resource path="res://Terrain/Terrain.gd" type="Script" id=2]
+
+[sub_resource type="ArrayMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=2]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 10, 10, 10 )
+
+[node name="Terrain" type="StaticBody"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MeshGenerator" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+material = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlayerDetectionZone" type="CollisionShape" parent="."]
+visible = false
+shape = SubResource( 3 )
+disabled = true
+[connection signal="generation_finished" from="MeshGenerator" to="." method="_on_MeshGenerator_generation_finished"]
