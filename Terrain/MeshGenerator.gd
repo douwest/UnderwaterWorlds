@@ -1,4 +1,4 @@
-extends MeshInstance
+extends Node
 
 export(SpatialMaterial) var material = SpatialMaterial.new()
 export(float) var isolevel setget generate
@@ -21,7 +21,12 @@ func vertexInterp(a, b, iso):
 		a[1] + mu * (b[1] - a[1]),
 		a[2] + mu * (b[2] - a[2])
 	)
+	
 
+"""
+how to make it faster? :c
+offload this to gpu somehow..
+"""
 func addVerts(x, y, z, surfTool, isolevel, color):
 	var value = 0
 	var grid = [
@@ -79,27 +84,28 @@ func addVerts(x, y, z, surfTool, isolevel, color):
 			surfTool.add_color(color)
 			surfTool.add_vertex(a)
 
-func generate(offset: Vector3):
+func generate(offset: Vector3) -> ArrayMesh:
+	print('generate!')
 	isolevel = 0.0
 	
 	var surfTool = SurfaceTool.new()
 	var mesh = Mesh.new()
-
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
 	for x in range(-width/2, width/2):
 		for y in range(-height / 2, height / 2):
 			for z in range(-width/2, width/2):
+				"""
+				maybe precalculate noise and only add vertices at voxels where necessary?
+				"""
 				addVerts(x + offset.x, y + offset.y, z + offset.z, surfTool, isolevel, get_color(y, offset))
 	
 	surfTool.generate_normals()
 	surfTool.index()
 	material.set_flag(SpatialMaterial.FLAG_ALBEDO_FROM_VERTEX_COLOR, true)
 	surfTool.set_material(material)
-	surfTool.commit(mesh)
-		
-	self.set_mesh(mesh)
-	emit_signal("generation_finished", mesh)
+	mesh = surfTool.commit(mesh)
+	return mesh
 	
 func get_color(y: float, offset: Vector3) -> Color:
 	var color_mult: float = (offset.y + y) / (height * 2) #value ranging from 0 to 1

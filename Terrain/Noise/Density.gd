@@ -8,11 +8,11 @@ export var period = 64
 export var persistence = 1.6
 export var world_seed: int = 6
 
-export var absolute_floor = -8
-export var absolute_ceil = 64
+export var absolute_floor = -16
+export var absolute_ceil = 16
 
 var height = 64
-var width = 128
+var width = 64
 
 func _ready(): 
 	init()
@@ -33,5 +33,5 @@ func get_density(x: float, y: float, z: float) -> float:
 	density += noise_layer.get_noise_3dv(Vector3(x, y, z) * 4.03) * 0.25 * x
 	density += noise_layer.get_noise_3dv(Vector3(x, y, z) * 1.96) * 0.50 * x
 	density += noise_layer.get_noise_3dv(Vector3(x, y, z) * 1.01) * 1.02 * x
-	density += noise_layer.get_noise_3dv(Vector3(x, y, z) * 0.6) * 2.08 * x
+	density += noise_layer.get_noise_3dv(Vector3(x, y, z) * 0.60) * 2.08 * x
 	return density

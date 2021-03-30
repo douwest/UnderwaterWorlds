@@ -2,18 +2,20 @@ extends Spatial
 
 onready var Terrain = preload("res://Terrain/Terrain.tscn")
 
-onready var offset = Density.width
-onready var edge_length = 1
-onready var height = 1
+onready var chunk_width = Density.width
+onready var edge_length = 2
+
+func _ready():
+	generate()
 
 func generate():
-	for child in get_children():
-		self.call_deferred('remove_child', child)
-	
 	for x in edge_length:
-		for y in height:
+		for y in edge_length:
 			for z in edge_length:
 				var chunk = Terrain.instance()
-				chunk.offset = Vector3(x * offset, y * offset, z * offset)
+				chunk.offset = Vector3(x * chunk_width, y * chunk_width, z * chunk_width)
+				chunk.generate()
 				self.call_deferred('add_child', chunk)
 
+func chunk_generated(chunk: StaticBody):
+	pass
