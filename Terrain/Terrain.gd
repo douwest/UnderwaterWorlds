@@ -1,6 +1,6 @@
 extends StaticBody
 
-onready var mesh = $Mesh
+onready var arrayMesh = $Mesh
 onready var collision_shape = $CollisionShape
 onready var player_detection_zone = $PlayerDetectionZone
 
@@ -11,7 +11,9 @@ signal generation_finished(mesh)
 
 func generate():
 	coroutine.start(self, "_generation_coroutine", offset, 2)
-	mesh.mesh = yield(self, "generation_finished")
+	var mesh = yield(self, "generation_finished")
+	assign_collision_body(mesh)
+	arrayMesh.mesh = mesh
 
 func _generation_coroutine(o: Vector3):
 	var mesh = MeshGenerator.generate(o)	

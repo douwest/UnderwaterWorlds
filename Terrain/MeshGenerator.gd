@@ -98,7 +98,7 @@ func generate(offset: Vector3) -> ArrayMesh:
 				"""
 				maybe precalculate noise and only add vertices at voxels where necessary?
 				"""
-				addVerts(x + offset.x, y + offset.y, z + offset.z, surfTool, isolevel, get_color(y, offset))
+				addVerts(x + offset.x, y + offset.y, z + offset.z, surfTool, isolevel, get_color(y))
 	
 	surfTool.generate_normals()
 	surfTool.index()
@@ -107,10 +107,10 @@ func generate(offset: Vector3) -> ArrayMesh:
 	mesh = surfTool.commit(mesh)
 	return mesh
 	
-func get_color(y: float, offset: Vector3) -> Color:
-	var color_mult: float = (offset.y + y) / (height * 2) #value ranging from 0 to 1
+func get_color(y: float) -> Color:
+	var color_mult: float = (Density.absolute_floor + y) / Density.absolute_ceil #value ranging from 0 to 1
 	return Color(
-		0.2 + (0.6 * color_mult), 
-		0.2 + (0.6 * color_mult), 
-		0.1 + (0.9 * color_mult)
+		0.4 + (0.3 * color_mult), 
+		0.25 + (0.2 * color_mult), 
+		0.4 + (0.2 * color_mult)
 		)

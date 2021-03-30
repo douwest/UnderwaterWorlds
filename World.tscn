@@ -19,6 +19,7 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
+auto_rotate = true
 
 [node name="Camera" type="Camera" parent="OriginPivot"]
 transform = Transform( 1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 45, 55 )
@@ -30,11 +31,6 @@ transform = Transform( 0.99485, 0, 0, 0, 0.573576, 0.814933, 0, -0.819152, 0.570
 
 [node name="SpawnLocation" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.19196, 5.55136, 15.9583 )
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 30, 0 )
-shadow_enabled = true
-omni_range = 48.3
 
 [node name="Control" type="Control" parent="."]
 margin_right = 329.0

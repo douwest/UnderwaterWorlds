@@ -3,10 +3,10 @@ extends Node
 var noise_layer = OpenSimplexNoise.new()
 
 export var lacunarity = 1.7
-export var octaves = 5
+export var octaves = 4
 export var period = 64
-export var persistence = 1.6
-export var world_seed: int = 6
+export var persistence = 1.4
+export var world_seed: int = 13
 
 export var absolute_floor = -16
 export var absolute_ceil = 16
