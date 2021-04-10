@@ -25,7 +25,8 @@ func vertexInterp(a, b, iso):
 
 """
 how to make it faster? :c
-offload this to gpu somehow..
+offload this calculation to gpu somehow..
+maybe via geometry shader?
 """
 func addVerts(x, y, z, surfTool, isolevel, color):
 	var value = 0
@@ -93,7 +94,7 @@ func generate(offset: Vector3) -> ArrayMesh:
 	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
 	for x in range(-width/2, width/2):
-		for y in range(-height / 2, height / 2):
+		for y in range(-height/2, height/2):
 			for z in range(-width/2, width/2):
 				"""
 				maybe precalculate noise and only add vertices at voxels where necessary?

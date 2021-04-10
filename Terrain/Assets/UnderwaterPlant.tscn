@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/aqua06.obj" type="ArrayMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.458824, 0.12549, 0.537255, 1 )
+
+[node name="UnderwaterPlant" type="MeshInstance"]
+transform = Transform( 0.05, 0, 0, 0, -2.18557e-09, 0.05, 0, -0.05, -2.18557e-09, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = SubResource( 1 )

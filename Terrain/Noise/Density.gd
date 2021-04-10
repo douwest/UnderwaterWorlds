@@ -11,8 +11,8 @@ export var world_seed: int = 13
 export var absolute_floor = -16
 export var absolute_ceil = 16
 
-var height = 64
-var width = 64
+var height = 32
+var width = 32
 
 func _ready(): 
 	init()

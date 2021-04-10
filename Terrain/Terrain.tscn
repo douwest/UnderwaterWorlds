@@ -4,10 +4,12 @@
 
 [sub_resource type="ArrayMesh" id=1]
 
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 10, 10, 10 )
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 15, 32, 15 )
 
 [node name="Terrain" type="StaticBody"]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
@@ -24,8 +26,11 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="PlayerDetectionZone" type="CollisionShape" parent="."]
-visible = false
-shape = SubResource( 3 )
+[node name="Area" type="Area" parent="."]
+collision_layer = 0
+
+[node name="PlayerDetectionZone" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121689, 0.0829697, 0.0471268 )
+shape = SubResource( 2 )
 disabled = true
-[connection signal="generation_finished" from="." to="." method="_on_Terrain_generation_finished"]
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
